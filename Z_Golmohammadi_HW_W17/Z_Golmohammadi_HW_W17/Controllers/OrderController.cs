@@ -19,7 +19,6 @@ namespace Z_Golmohammadi_HW_W17.Controllers
                 SqlCommand cmd = sqlConnection.CreateCommand();
                 cmd.CommandText = @$"SELECT so.[order_id],sc.[first_name],sc.[last_name],sc.[street]+', '+sc.[city]+', '+sc.[state] AS [customer_address],sc.[phone],so.order_date,so.required_date,so.shipped_date,ss.first_name + ' '+ss.last_name AS [staff_name] 
                                     FROM sales.orders so
-                                    LEFT JOIN sales.order_items soi ON so.order_id=soi.order_id
                                     LEFT JOIN sales.customers sc ON so.customer_id=sc.customer_id
                                     LEFT JOIN sales.staffs ss ON so.staff_id=ss.staff_id 
                                     where so.order_id={orderId}";
