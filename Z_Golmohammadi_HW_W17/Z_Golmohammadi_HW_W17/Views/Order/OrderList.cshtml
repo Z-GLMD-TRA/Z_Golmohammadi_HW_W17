@@ -1,0 +1,112 @@
+﻿@model Z_Golmohammadi_HW_W17.Models.OrderProductViewModel
+
+<h1>Order Data</h1>
+<form class="form-inline d-flex mb-2" method="get" action="@Url.Action("GetFilteredOrdersList", "Order")">
+    <div class="form-group align-content-center m-1">
+        <input type="text" id="orderId" name="orderId" placeholder="Enter order id">
+    </div>
+    <div class="form-group align-content-center m-1">
+        <button type="submit" class="btn btn-outline-primary" )">Show</button>
+    </div>
+</form>
+<table class="table table-bordered table-condensed table-striped table-hover sortable">
+    <thead>
+        <tr>
+            <th data-defaultsign="" scope="col">#</th>
+            <th data-defaultsign="" scope="col">OrderId</th>
+            <th data-defaultsign="" scope="col">Customer First Name</th>
+            <th data-defaultsign="" scope="col">Customer Last Name</th>
+            <th data-defaultsign="" scope="col">Customer Address</th>
+            <th data-defaultsign="" scope="col">Customer Phone</th>
+            <th data-defaultsign="" scope="col">Order Date</th>
+            <th data-defaultsign="" scope="col">Required Date</th>
+            <th data-defaultsign="" scope="col">Shipped Date</th>
+            <th data-defaultsign="" scope="col">Staff Name</th>
+            <th data-defaultsign="" scope="col">Operation</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model.OrderInfo != null)
+        {
+            int i = 0;
+            foreach (var item in Model.OrderInfo)
+            {
+                <tr>
+                    <td>@(i += 1)</td>
+                    <td>@item.OrderId</td>
+                    <td>@item.CustomerFirstName</td>
+                    <td>@item.CustomerLastName</td>
+                    <td>@item.CustomerAddress</td>
+                    <td>@item.CustomerPhone</td>
+                    <td>@item.OrderDate.ToShortDateString()</td>
+                    <td>@item.RequiredDate.ToShortDateString()</td>
+                    <td>@item.ShippedDate.ToShortDateString()</td>
+                    <td>@item.StaffName</td>
+                    <td>
+                        @Html.ActionLink("Details", "MoreInfoOrderData", new { id = item.OrderId }, new { @class = "btn btn-outline-info" })
+                    </td>
+
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<hr />
+
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Details</h5>
+            </div>
+            <div class="modal-body">
+                @if (Model.SelectedOrder != null)
+                {
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>Product ID</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Discount</th>
+                                <th>Payment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model.ProductInfo)
+                            {
+                                <tr>
+                                    <td>@product.ProductId</td>
+                                    <td>@product.ProductName</td>
+                                    <td>@product.Quantity</td>
+                                    <td>@product.Price.ToString("C")</td>
+                                    <td>@product.Discount.ToString("P")</td>
+                                    <td>@product.Payment.ToString("C")</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr class="font-weight-bold">
+                                <td colspan="5" class="text-right">Total Payment:</td>
+                                <td>@Model.TotalPayment.ToString("C")</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            if (@Json.Serialize(Model.SelectedOrder != null)) {
+                $('#detailsModal').modal('show');
+            }
+        });
+    </script>
+}

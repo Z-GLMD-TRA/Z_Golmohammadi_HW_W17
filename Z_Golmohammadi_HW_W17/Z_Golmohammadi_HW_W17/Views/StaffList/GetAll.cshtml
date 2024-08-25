@@ -1,0 +1,52 @@
+﻿@model Z_Golmohammadi_HW_W17.Models.StaffViewModel
+
+<h1>Staff Data</h1>
+<form class="form-inline d-flex mb-2" method="get" action="@Url.Action("FilteredData", "StaffList")">
+    <div class="form-group align-content-center m-1">
+        <input type="text" id="managerId" name="managerId" placeholder="Enter manager id">
+    </div>
+    <div class="form-group align-content-center m-1">
+        <input type="text" id="storeName" name="storeName" placeholder="Enter store name">
+    </div>
+    <div class="form-group align-content-center m-1">
+        <button type="submit" class="btn btn-outline-success">Apply Filters</button>
+    </div>
+    <div class="form-group align-content-center m-1">
+        <button type="submit" class="btn btn-outline-danger" action="@Url.Action("GetAll", "StaffList")">Clear Filters</button>
+    </div>
+</form>
+<table class="table table-bordered table-condensed table-striped table-hover sortable">
+    <thead>
+        <tr>
+            <th data-defaultsign="" scope="col">#</th>
+            <th data-defaultsign="" scope="col">First Name</th>
+            <th data-defaultsign="" scope="col">Last Name</th>
+            <th data-defaultsign="" scope="col">Email</th>
+            <th data-defaultsign="" scope="col">Phone</th>
+            <th data-defaultsign="" scope="col">Store Id</th>
+            <th data-defaultsign="" scope="col">Store Name</th>
+            <th data-defaultsign="" scope="col">Manager Name</th>
+            <th data-defaultsign="" scope="col">Manager Id</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model.StaffsInfo)
+        {
+            <tr>
+                <td>@(i += 1)</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.Email</td>
+                <td>@item.Phone</td>
+                <td>@item.StoreId</td>
+                <td>@item.StoreName</td>
+                <td>@item.ManagerName</td>
+                <td>@item.ManagerId</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
